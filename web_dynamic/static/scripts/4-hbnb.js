@@ -1,24 +1,18 @@
 $(document).ready(() => {
-  // When the button is clicked, make a POST request with the list of checked amenities
-  const amenities = {}; // Dictionary to store the checked amenities
+  const amenities = {};
 
-  // Listen for changes on each input checkbox tag
   $('input[type="checkbox"]').on('change', function () {
     if (this.checked) {
-      // If the checkbox is checked, store the Amenity ID in the dictionary
       amenities[$(this).data('id')] = $(this).data('name');
     } else {
-      // If the checkbox is unchecked, remove the Amenity ID from the dictionary
       delete amenities[$(this).data('id')];
     }
-    // Update the text in the .amenities h4 element
     $('.amenities h4').text(Object.values(amenities).join(', '));
     if (Object.keys(amenities).length === 0) {
       $('.amenities h4').html('&nbsp;');
     }
   });
 
-  // Request http://0.0.0.0:5001/api/v1/status/
   $.get('http://0.0.0.0:5001/api/v1/status/', (data, textStatus) => {
     if (textStatus === 'success') {
       $('div#api_status').addClass('available');
@@ -53,7 +47,6 @@ $(document).ready(() => {
       }
     });
 
-    // When the button is clicked, make a POST request with the list of checked amenities
     $('button').on('click', () => {
       $.ajax({
         url: 'http://0.0.0.0:5001/api/v1/places_search/',
